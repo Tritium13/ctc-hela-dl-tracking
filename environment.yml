@@ -1,0 +1,14 @@
+name: bia
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      - napari[all]==0.9.2
+      - cellpose==4.2.1.1
+      - tifffile
+      - scikit-image
+      - pandas
+      - matplotlib
+      - jupyterlab

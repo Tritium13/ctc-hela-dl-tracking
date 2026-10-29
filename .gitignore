@@ -1,0 +1,22 @@
+# Raw and intermediate data (large, not ours to redistribute)
+data/*
+!data/.gitkeep
+
+# Model weights and training outputs
+models/
+*.pth
+*.h5
+*.keras
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+
+# macOS
+.DS_Store
