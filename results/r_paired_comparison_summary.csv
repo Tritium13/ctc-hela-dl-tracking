@@ -1,0 +1,12 @@
+"quantity","value"
+"nuclei",491
+"lost",28
+"gained",18
+"mcnemar_p",0.183924821376991
+"logit_change",0.433421222798139
+"logit_change_lo",0.307610238365098
+"logit_change_hi",0.546268017874739
+"icc_frame",0.169160337844735
+"near_div_extra",0.354043851837072
+"near_div_extra_lo",0.225961282841547
+"near_div_extra_hi",0.479085560247878

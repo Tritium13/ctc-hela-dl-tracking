@@ -1,0 +1,53 @@
+Nuclei: 491 | frames: 28 | near division: 127 
+Mean best IoU  pretrained 0.787 | fine-tuned 0.816
+Detected (IoU > 0.5)  pretrained 459 | fine-tuned 449
+
+=== Detection (2x2 table) ===
+          fine_tuned
+pretrained FALSE TRUE
+     FALSE    14   18
+     TRUE     28  431
+
+lost: 28 | gained: 18
+exact McNemar: p = 0.184 (proportion gained among discordant = 0.39, 95% CI 0.25-0.55)
+
+Discordant nuclei by distance to division:
+             change
+near_division gained lost unchanged
+        FALSE      9   17       338
+        TRUE       9   11       107
+
+=== Outline quality (nuclei detected by both models) ===
+n = 431 nuclei in 28 frames | mean raw IoU change +0.054 | improved in 80 % of nuclei
+Linear mixed model fit by REML ['lmerMod']
+Formula: diff_logit ~ 1 + (1 | frame)
+   Data: both
+
+REML criterion at convergence: 691.2
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-4.0102 -0.6651  0.0493  0.6023  3.4207 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ frame    (Intercept) 0.05478  0.2341  
+ Residual             0.26908  0.5187  
+Number of obs: 431, groups:  frame, 28
+
+Fixed effects:
+            Estimate Std. Error t value
+(Intercept)  0.43342    0.05774   7.507
+
+Mean change in logit(IoU): +0.433 (95% CI +0.308 to +0.546)
+Share of variance between frames (ICC): 0.17
+Example: a nucleus with IoU 0.85 before -> 0.897 after (CI 0.885-0.907)
+Check without frame effect (t-test): +0.454 (95% CI +0.402 to +0.506)
+
+Near division (n = 103) vs. not (n = 328): extra change in logit(IoU) +0.354 (95% CI +0.226 to +0.479)
+null device 
+          1 
+null device 
+          1 
+
+Saved: results/r_paired_comparison_summary.csv, results/figures/r_*.png
