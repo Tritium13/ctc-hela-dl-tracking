@@ -1,0 +1,61 @@
+frame,method,n_gt,n_pred,tp,fp,fn,precision,recall,f1,mean_iou_matched,seg_like,level
+13,cellpose-sam,59,58.0,54.0,4.0,5.0,0.9310344827586207,0.9152542372881356,0.9230769230769231,0.8429783126927056,0.7715394726340018,full_frame
+13,silver truth,59,59.0,59.0,0.0,0.0,1.0,1.0,1.0,0.9201237352124548,0.9201237352124548,full_frame
+52,cellpose-sam,110,116.0,108.0,8.0,2.0,0.9310344827586207,0.9818181818181818,0.9557522123893806,0.8691074111984035,0.8533054582675235,full_frame
+52,silver truth,110,113.0,110.0,3.0,0.0,0.9734513274336283,1.0,0.9865470852017937,0.9149563464464205,0.9149563464464205,full_frame
+12,cellpose-sam,2,,,,,,1.0,,,0.7227170503639699,seg_all_frames
+12,silver truth,2,,,,,,1.0,,,0.7992604928166192,seg_all_frames
+13,cellpose-sam,59,,,,,,0.9152542372881356,,,0.7715394726340018,seg_all_frames
+13,silver truth,59,,,,,,1.0,,,0.9201237352124548,seg_all_frames
+14,cellpose-sam,4,,,,,,0.75,,,0.595206917662559,seg_all_frames
+14,silver truth,4,,,,,,1.0,,,0.7629691188966214,seg_all_frames
+15,cellpose-sam,8,,,,,,1.0,,,0.7738775481533509,seg_all_frames
+15,silver truth,8,,,,,,1.0,,,0.8706678802208894,seg_all_frames
+20,cellpose-sam,11,,,,,,0.9090909090909091,,,0.7591300911237963,seg_all_frames
+20,silver truth,11,,,,,,1.0,,,0.8849464880153257,seg_all_frames
+21,cellpose-sam,3,,,,,,1.0,,,0.8277726531376167,seg_all_frames
+21,silver truth,3,,,,,,1.0,,,0.8018017027881124,seg_all_frames
+22,cellpose-sam,9,,,,,,0.7777777777777778,,,0.6244755380800159,seg_all_frames
+22,silver truth,9,,,,,,1.0,,,0.8124510307256637,seg_all_frames
+23,cellpose-sam,12,,,,,,0.9166666666666666,,,0.7424068295882327,seg_all_frames
+23,silver truth,12,,,,,,1.0,,,0.8477506341502782,seg_all_frames
+25,cellpose-sam,5,,,,,,1.0,,,0.8124713875264199,seg_all_frames
+25,silver truth,5,,,,,,1.0,,,0.89094923752646,seg_all_frames
+29,cellpose-sam,7,,,,,,1.0,,,0.798560257641154,seg_all_frames
+29,silver truth,7,,,,,,1.0,,,0.8706846208228403,seg_all_frames
+38,cellpose-sam,14,,,,,,1.0,,,0.7489155117234214,seg_all_frames
+38,silver truth,14,,,,,,1.0,,,0.9023351429988161,seg_all_frames
+39,cellpose-sam,13,,,,,,0.9230769230769231,,,0.6965566681966724,seg_all_frames
+39,silver truth,13,,,,,,1.0,,,0.8913571977196784,seg_all_frames
+40,cellpose-sam,9,,,,,,0.8888888888888888,,,0.6614066226625162,seg_all_frames
+40,silver truth,9,,,,,,1.0,,,0.8256341047890504,seg_all_frames
+44,cellpose-sam,14,,,,,,0.9285714285714286,,,0.6924510635145146,seg_all_frames
+44,silver truth,14,,,,,,1.0,,,0.8891340962766783,seg_all_frames
+50,cellpose-sam,1,,,,,,1.0,,,0.9016129032258065,seg_all_frames
+50,silver truth,1,,,,,,1.0,,,0.850453172205438,seg_all_frames
+51,cellpose-sam,3,,,,,,0.3333333333333333,,,0.2890625,seg_all_frames
+51,silver truth,3,,,,,,1.0,,,0.7866143560219148,seg_all_frames
+52,cellpose-sam,110,,,,,,0.9818181818181818,,,0.8533054582675235,seg_all_frames
+52,silver truth,110,,,,,,1.0,,,0.9149563464464205,seg_all_frames
+53,cellpose-sam,4,,,,,,0.5,,,0.39046060982145375,seg_all_frames
+53,silver truth,4,,,,,,1.0,,,0.7420246688773688,seg_all_frames
+54,cellpose-sam,12,,,,,,0.8333333333333334,,,0.7044609439915409,seg_all_frames
+54,silver truth,12,,,,,,1.0,,,0.890065949993987,seg_all_frames
+55,cellpose-sam,19,,,,,,0.9473684210526315,,,0.7398588033856913,seg_all_frames
+55,silver truth,19,,,,,,1.0,,,0.8747738043721439,seg_all_frames
+62,cellpose-sam,21,,,,,,0.9523809523809523,,,0.8008394767693694,seg_all_frames
+62,silver truth,21,,,,,,1.0,,,0.8904118134144758,seg_all_frames
+76,cellpose-sam,35,,,,,,0.9142857142857143,,,0.7537469940235964,seg_all_frames
+76,silver truth,35,,,,,,1.0,,,0.8814665528819814,seg_all_frames
+77,cellpose-sam,30,,,,,,0.9666666666666667,,,0.8088724256688398,seg_all_frames
+77,silver truth,30,,,,,,0.9666666666666667,,,0.8518340777997009,seg_all_frames
+78,cellpose-sam,1,,,,,,1.0,,,0.8650674662668666,seg_all_frames
+78,silver truth,1,,,,,,1.0,,,0.8425655976676385,seg_all_frames
+79,cellpose-sam,26,,,,,,0.9230769230769231,,,0.7844612871224379,seg_all_frames
+79,silver truth,26,,,,,,0.9615384615384616,,,0.8495126187624871,seg_all_frames
+80,cellpose-sam,25,,,,,,0.92,,,0.7745508077297789,seg_all_frames
+80,silver truth,25,,,,,,1.0,,,0.8584092423556597,seg_all_frames
+81,cellpose-sam,2,,,,,,1.0,,,0.8637201082869604,seg_all_frames
+81,silver truth,2,,,,,,1.0,,,0.829756303440514,seg_all_frames
+88,cellpose-sam,32,,,,,,0.96875,,,0.8346890673965867,seg_all_frames
+88,silver truth,32,,,,,,1.0,,,0.8621994863231444,seg_all_frames
