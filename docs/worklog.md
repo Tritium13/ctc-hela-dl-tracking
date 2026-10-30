@@ -89,3 +89,17 @@ jupyter lab
 
 Fluo-N2DL-HeLa training data obtained from a Kaggle mirror (xunbch/hela-train) while the CTC server was down;
 treated as the original. Location: `data/raw/Fluo-N2DL-HeLa/`. Verify by checksum against the official zip when available.
+
+## 2026-10-30 – Fine-tuning on Kaggle
+
+**Why Kaggle:** free GPU, dataset already available there (no upload), no Google account needed.
+Requires phone verification for GPU and internet access.
+
+**Setup:** Kaggle notebook imported from `notebooks/04_finetune_cellpose_kaggle.ipynb`;
+input dataset `xunbch/hela-train` (mounted at `/kaggle/input/datasets/xunbch/hela-train/`);
+accelerator 2 × Tesla T4 (15 GB each, Cellpose uses one); cellpose 4.2.1.1, Python 3.13, torch 2.11 (CUDA 12.8).
+
+**Run:** version "v1 – seq02 ST, 100 epochs, lr 1e-5", started via *Save Version → Save & Run All (Commit)*.
+Training data: `scripts/prepare_cellpose_training.py` logic inline (seq 02 silver truth, 82 train / 10 test frames).
+Outputs (Kaggle notebook output tab): `models/cpsam_hela_seq02`, `learning_curves.png/.csv`,
+`metrics_pretrained_vs_finetuned_seq01.csv`.

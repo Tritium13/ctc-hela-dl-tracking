@@ -8,9 +8,8 @@ statistical analysis of nuclear motion in R.
 
 ## Question (draft)
 
-1. How well do pretrained deep-learning models (Cellpose-SAM, StarDist `2D_versatile_fluo`)
-   segment H2B-GFP-labelled HeLa nuclei compared with the challenge reference annotations,
-   and does training a model on this dataset improve the result?
+1. How well does a pretrained deep-learning model (Cellpose-SAM) segment H2B-GFP-labelled HeLa nuclei
+   compared with the challenge reference annotations, and does fine-tuning on this dataset improve the result?
 2. Does nuclear migration speed change around mitosis?
 3. *(side question, later)* How does H2B-GFP content change over the cell cycle, and how much of the
    variation lies between cell families rather than within cells? A first exploration is in notebook 02.
@@ -29,7 +28,7 @@ The data are **not** included in this repository. Download them from the
 | Stage | Tools | Status |
 |---|---|---|
 | 1. Orientation: inspect data | Python, napari | done |
-| 2. Segmentation: pretrained models, evaluation against reference, own training | Cellpose, StarDist, ZeroCostDL4Mic (Colab) | planned |
+| 2. Segmentation: pretrained model, evaluation against reference, fine-tuning | Cellpose-SAM, Google Colab | in progress |
 | 3. Tracking and statistics | TrackMate, R (lme4) | planned |
 | 4. Documentation | — | planned |
 
