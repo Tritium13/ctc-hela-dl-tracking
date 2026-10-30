@@ -84,3 +84,8 @@ conda activate bia
 cd ~/Projects/ctc-hela-dl-tracking
 jupyter lab
 ```
+
+## 2026-10-30 – Data
+
+Fluo-N2DL-HeLa training data obtained from a Kaggle mirror (xunbch/hela-train) while the CTC server was down;
+treated as the original. Location: `data/raw/Fluo-N2DL-HeLa/`. Verify by checksum against the official zip when available.
