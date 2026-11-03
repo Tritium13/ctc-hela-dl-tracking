@@ -44,10 +44,9 @@ Share of variance between frames (ICC): 0.17
 Example: a nucleus with IoU 0.85 before -> 0.897 after (CI 0.885-0.907)
 Check without frame effect (t-test): +0.454 (95% CI +0.402 to +0.506)
 
-Near division (n = 103) vs. not (n = 328): extra change in logit(IoU) +0.354 (95% CI +0.226 to +0.479)
-null device 
-          1 
-null device 
-          1 
+=== Extra change near divisions (sensitivity to the threshold) ===
+threshold 1 frame(s) = 0.5 h: near n =  90 | extra change +0.314 (95% CI +0.176 to +0.450)
+threshold 2 frame(s) = 1.0 h: near n = 103 | extra change +0.354 (95% CI +0.226 to +0.479)
+threshold 3 frame(s) = 1.5 h: near n = 113 | extra change +0.331 (95% CI +0.210 to +0.449)
 
 Saved: results/r_paired_comparison_summary.csv, results/figures/r_*.png

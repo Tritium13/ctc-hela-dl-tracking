@@ -103,3 +103,8 @@ accelerator 2 × Tesla T4 (15 GB each, Cellpose uses one); cellpose 4.2.1.1, Pyt
 Training data: `scripts/prepare_cellpose_training.py` logic inline (seq 02 silver truth, 82 train / 10 test frames).
 Outputs (Kaggle notebook output tab): `models/cpsam_hela_seq02`, `learning_curves.png/.csv`,
 `metrics_pretrained_vs_finetuned_seq01.csv`.
+
+## 2026-11-03 – CTC server still unreachable
+
+data.celltrackingchallenge.net still times out (checked 2026-10-29, 10-30, 11-03). Checksum comparison
+with the Kaggle copy postponed.

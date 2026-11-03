@@ -104,17 +104,26 @@ tt <- t.test(both$diff_logit)
 cat(sprintf("Check without frame effect (t-test): %+.3f (95%% CI %+.3f to %+.3f)\n",
             tt$estimate, tt$conf.int[1], tt$conf.int[2]))
 
-# --- 4. Does the change differ near divisions? --------------------------------
+# --- 4. Does the change differ near divisions? (with sensitivity analysis) -----
+# "Near division" is defined by a threshold on frames_to_division. The main analysis uses
+# 2 frames (= 1 h). To check that the result does not hinge on this choice, the model is
+# refitted with 1, 2 and 3 frames (0.5, 1, 1.5 h).
 b2 <- NA; ci2 <- c(NA, NA)
-if (length(unique(both$near_division)) == 2) {
-  m2 <- lmer(diff_logit ~ near_division + (1 | frame), data = both, REML = TRUE)
-  b2  <- fixef(m2)[["near_divisionTRUE"]]
-  ci2 <- ci_of(m2, "near_divisionTRUE")
-  cat(sprintf("\nNear division (n = %d) vs. not (n = %d): extra change in logit(IoU) %+.3f (95%% CI %+.3f to %+.3f)\n",
-              sum(both$near_division), sum(!both$near_division), b2, ci2[1], ci2[2]))
-} else {
-  cat("\nNo comparison near vs. not near division: only one group among nuclei detected by both models.\n")
+cat("\n=== Extra change near divisions (sensitivity to the threshold) ===\n")
+for (k in c(1, 2, 3)) {
+  near_k <- !is.na(both$frames_to_division) & both$frames_to_division <= k
+  if (length(unique(near_k)) < 2) {
+    cat(sprintf("threshold %d frames: only one group, skipped\n", k)); next
+  }
+  both$near_k <- near_k
+  m_k  <- lmer(diff_logit ~ near_k + (1 | frame), data = both, REML = TRUE)
+  b_k  <- fixef(m_k)[["near_kTRUE"]]
+  ci_k <- ci_of(m_k, "near_kTRUE")
+  cat(sprintf("threshold %d frame(s) = %.1f h: near n = %3d | extra change %+.3f (95%% CI %+.3f to %+.3f)\n",
+              k, k * 0.5, sum(near_k), b_k, ci_k[1], ci_k[2]))
+  if (k == 2) { b2 <- b_k; ci2 <- ci_k }     # main analysis, also used in the summary table
 }
+both$near_k <- NULL
 
 # --- 5. Diagnostics -------------------------------------------------------------
 png("results/figures/r_diagnostics.png", width = 1600, height = 1200, res = 150)
