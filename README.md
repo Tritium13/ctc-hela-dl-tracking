@@ -4,13 +4,21 @@ Deep-learning segmentation and tracking of HeLa nuclei from the
 [Cell Tracking Challenge](https://celltrackingchallenge.net), followed by a
 statistical analysis of nuclear motion in R.
 
-> **Status:** work in progress. Results and figures will be added as each stage is completed.
+> **Status:** stages 1–3 complete (segmentation, tracking, statistics); documentation in progress.
 
-## Question (draft)
+**Key results (sequence 01, unseen during training)**
+- Fine-tuning Cellpose-SAM on silver-truth data of the other sequence raises F1 on fully annotated frames to
+  0.97–0.99 (pretrained 0.92–0.96) and improves nuclear outlines, especially around divisions (paired mixed model).
+- Trackastra on these masks reaches TRA 0.95 (0.995 on silver-truth masks); divisions F1 0.79.
+- Nuclear speed rises sharply at division (6.2× baseline at the division step) and stays elevated for ~7 h in the
+  daughters. The automatic pipeline reproduces the reference result in all 13 time bins.
+
+## Questions
 
 1. How well does a pretrained deep-learning model (Cellpose-SAM) segment H2B-GFP-labelled HeLa nuclei
    compared with the challenge reference annotations, and does fine-tuning on this dataset improve the result?
-2. Does nuclear migration speed change around mitosis?
+2. Does nuclear speed change around mitosis, and does an automatic pipeline reach the same conclusion
+   as the manual reference?
 3. *(side question, later)* How does H2B-GFP content change over the cell cycle, and how much of the
    variation lies between cell families rather than within cells? A first exploration is in notebook 02.
 
@@ -29,7 +37,7 @@ The data are **not** included in this repository. Download them from the
 |---|---|---|
 | 1. Orientation: inspect data | Python, napari | done |
 | 2. Segmentation: pretrained model, evaluation against reference, fine-tuning | Cellpose-SAM, Kaggle (GPU), R (lme4) | done |
-| 3. Tracking and statistics | TrackMate, R (lme4) | planned |
+| 3. Tracking and statistics | Trackastra, traccuracy, R (lme4) | done |
 | 4. Documentation | — | planned |
 
 ## Results – stage 2: segmentation
@@ -73,6 +81,43 @@ F1 0.92 (frame 13) and 0.96 (frame 52); IoU of matched nuclei 0.84–0.87.
 **Limitations.** The fine-tuned model learns the outline style of the silver truth (automatic consensus), not of the
 manual annotation. The near-division threshold is an assumption. Detection counts treat nuclei of one frame as
 independent. Data: Kaggle mirror of the CTC training set, used while the official server was unreachable.
+
+## Results – stage 3: tracking and speed around mitosis
+
+**Tracking** – [notebook 06](notebooks/06_tracking_trackastra.ipynb): all 92 frames of sequence 01 segmented with the
+fine-tuned model, linked with Trackastra (pretrained `general_2d`, greedy linking with divisions), evaluated with
+traccuracy against the manual tracking reference ([metrics](results/tracking_metrics_seq01.csv)).
+
+| Masks | DET | LNK | TRA | Division F1 | Division precision | Division recall |
+|---|---|---|---|---|---|---|
+| fine-tuned Cellpose-SAM | 0.951 | 0.942 | 0.950 | 0.79 | 0.83 | 0.76 |
+| silver truth (comparison) | 0.995 | 0.992 | 0.995 | 0.88 | 0.85 | 0.92 |
+
+Linking itself is close to challenge level (TRA 0.995 on near-perfect masks); the remaining gap comes mainly from
+segmentation. Detected divisions are always placed in the correct frame (frame buffer 0–2 makes no difference).
+
+**Speed around mitosis** – [notebook 07](notebooks/07_speed_around_mitosis.ipynb),
+[R script](R/02_speed_around_mitosis.R), [output](results/r_speed_output.txt).
+Speed = displacement of the nuclear centroid between consecutive frames (µm/h), aligned to each division
+(94 divisions in the reference). Model: `log(speed + 0.5) ~ time bin + (1 | division) + (1 | track)`,
+crossed random effects because a cell can belong to the division it arises from and to its own division.
+Baseline: 4–8 h before division (≈ 2.7 µm/h).
+
+| Time to division | −4 to −2 h | −1 h | division step | +1 h | +2 to +7 h | +8 h |
+|---|---|---|---|---|---|---|
+| Speed vs. baseline (reference) | 0.97–1.08 | 1.7× | 6.2× | 1.8× | 1.2–1.5× | 0.99 |
+
+- No change in the hours before division, a sharp peak at division (daughter separation, ~8 µm in 30 min) and
+  elevated motion of the daughters for about 7 h.
+- **The pipeline reproduces the reference** (86 detected divisions, including some false ones): correlation of the
+  time effects r = 1.00, same peak, same conclusion in 13 of 13 time bins → the pipeline is suitable for this
+  question on new, unannotated data.
+
+![speed around division](results/figures/r_speed_ratio_by_time.png)
+
+**Limitations.** Centroid displacement includes shape changes (chromatin condensation before division) and is not
+necessarily cell migration. 13 time bins are compared with the baseline without multiplicity correction (effects are
+large); confidence intervals are Wald approximations. One sequence only; the second sequence was used for training.
 
 ## Repository layout
 
