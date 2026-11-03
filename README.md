@@ -40,6 +40,56 @@ The data are **not** included in this repository. Download them from the
 | 3. Tracking and statistics | Trackastra, traccuracy, R (lme4) | done |
 | 4. Documentation | — | planned |
 
+## Methods
+
+**Data.** Fluo-N2DL-HeLa training set of the Cell Tracking Challenge: two sequences of 92 frames
+(700 × 1100 px, 0.645 µm/px, 30 min interval), with gold-truth segmentation (frames 13 and 52 complete,
+26 further frames partially annotated), a manual tracking reference with lineage for all frames, and silver-truth
+segmentation for all frames. Because the official download server was unreachable (Oct–Nov 2026), the data were
+taken from a Kaggle mirror ([xunbch/hela-train](https://www.kaggle.com/datasets/xunbch/hela-train)) with identical
+file structure; a checksum comparison with the official archive is pending.
+
+**Segmentation.** Cellpose 4.2.1.1 with the Cellpose-SAM weights `cpsam_v2`, default inference settings (no
+diameter, internal percentile normalisation). Fine-tuning with Cellpose's `train_seg` on the silver truth of
+sequence 02 (82 training frames, every 10th frame held out to monitor the loss): 100 epochs, learning rate 1e-5
+(10-epoch warm-up, stepwise halving from epoch 50), weight decay 0.1, batch size 1, random 256 × 256 crops with
+rotation/scaling augmentation; one Tesla T4 on Kaggle, 127 min. Evaluation on sequence 01 only: a prediction
+matches a reference nucleus at IoU > 0.5; precision, recall and F1 on the two fully annotated frames; a SEG-like
+score (mean best IoU per reference nucleus, 0 if unmatched) on all 28 gold-truth frames, weighted by the number of
+annotated nuclei.
+
+**Tracking.** Trackastra 0.5.6 (pretrained `general_2d`, greedy linking with divisions) on all 92 frames of
+sequence 01, applied to the fine-tuned masks and, for comparison, to the silver-truth masks. Evaluation with
+traccuracy 0.4.3 against the tracking reference: CTC matching and measures (DET, LNK, TRA); division precision,
+recall and F1 with IoU matching (threshold 0.1, one-to-one) and a frame buffer of 0–2.
+
+**Nuclear motion.** Position = centroid of the nuclear mask. For the reference, identity and lineage come from the
+manual tracking markers and the position from the silver-truth mask containing exactly one marker (otherwise the
+marker centroid; 94 of 8,639 positions). Speed = displacement between consecutive observations of the same cell
+(µm/h); the step from the mother's last to a daughter's first position is the *division step*. Each step is aligned
+to its nearest division (mother with exactly two daughters) within ±8 h.
+
+**Statistics** (R 4.6.1, lme4; full session info in [results/r_session_info.txt](results/r_session_info.txt)).
+- *Detection, pretrained vs. fine-tuned*: exact McNemar test on discordant nuclei.
+- *Outline quality*: linear mixed model on paired per-nucleus differences of logit(IoU) (nuclei found by both
+  models), random intercept for frame, profile confidence intervals; sensitivity of the "near division" effect to
+  thresholds of 0.5, 1 and 1.5 h.
+- *Speed around mitosis*: linear mixed model `log(speed + 0.5) ~ time bin + (1 | division) + (1 | track)` with 1-h
+  bins and a pooled baseline 4–8 h before division; Wald confidence intervals; fitted separately to reference and
+  pipeline tracks.
+- Model assumptions were checked with residual and random-effect Q-Q plots
+  ([outlines](results/figures/r_diagnostics.png), [speed](results/figures/r_speed_diagnostics.png)).
+
+**Software.** Python 3.12 (numpy, pandas, scikit-image, tifffile, napari 0.9.2, PyTorch with Apple MPS locally and
+CUDA on Kaggle); exact package versions in [environment.yml](environment.yml) and
+[results/python_packages.txt](results/python_packages.txt).
+
+### Reproducing the analysis
+1. `conda env create -f environment.yml && conda activate bia`; place the dataset in `data/raw/Fluo-N2DL-HeLa/`.
+2. Run notebooks 01–03 locally; run notebook 04 on a GPU (Kaggle) and put the resulting model file in `models/`.
+3. Run notebooks 05–07 locally (predictions and masks are cached in `data/derived/`).
+4. `Rscript R/01_paired_comparison.R` and `Rscript R/02_speed_around_mitosis.R` from the repository root.
+
 ## Results – stage 2: segmentation
 
 All evaluations use **sequence 01** (gold truth, 28 annotated frames); fine-tuning used **sequence 02** only.
