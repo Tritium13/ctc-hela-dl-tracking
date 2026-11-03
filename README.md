@@ -4,7 +4,7 @@ Deep-learning segmentation and tracking of HeLa nuclei from the
 [Cell Tracking Challenge](https://celltrackingchallenge.net), followed by a
 statistical analysis of nuclear motion in R.
 
-> **Status:** stages 1–3 complete (segmentation, tracking, statistics); documentation in progress.
+> **Status:** complete (segmentation, tracking, statistics, documentation). Optional extensions are listed at the end.
 
 **Key results (sequence 01, unseen during training)**
 - Fine-tuning Cellpose-SAM on silver-truth data of the other sequence raises F1 on fully annotated frames to
@@ -38,7 +38,7 @@ The data are **not** included in this repository. Download them from the
 | 1. Orientation: inspect data | Python, napari | done |
 | 2. Segmentation: pretrained model, evaluation against reference, fine-tuning | Cellpose-SAM, Kaggle (GPU), R (lme4) | done |
 | 3. Tracking and statistics | Trackastra, traccuracy, R (lme4) | done |
-| 4. Documentation | — | planned |
+| 4. Documentation | — | done |
 
 ## Methods
 
@@ -168,6 +168,15 @@ Baseline: 4–8 h before division (≈ 2.7 µm/h).
 **Limitations.** Centroid displacement includes shape changes (chromatin condensation before division) and is not
 necessarily cell migration. 13 time bins are compared with the baseline without multiplicity correction (effects are
 large); confidence intervals are Wald approximations. One sequence only; the second sequence was used for training.
+
+## Possible extensions
+
+- Direction of motion of the daughter nuclei after division (not analysed so far).
+- Replicate the reference analysis on sequence 02 (biological replicate; the pipeline cannot be evaluated there
+  because sequence 02 was used for training).
+- Side question on H2B-GFP content over the cell cycle (first exploration in notebook 02).
+- Why the fine-tuned model loses some nuclei (28 of 491); tune `cellprob_threshold` on sequence 02 only.
+- Checksum comparison with the official CTC archive once its server is reachable again.
 
 ## Repository layout
 
