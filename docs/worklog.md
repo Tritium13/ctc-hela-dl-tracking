@@ -108,3 +108,19 @@ Outputs (Kaggle notebook output tab): `models/cpsam_hela_seq02`, `learning_curve
 
 data.celltrackingchallenge.net still times out (checked 2026-10-29, 10-30, 11-03). Checksum comparison
 with the Kaggle copy postponed.
+
+## 2026-11-03 – Tracking tools
+
+**Decision:** Trackastra (deep-learning tracker, pretrained `general_2d`, mode `greedy` with divisions) instead of
+TrackMate; evaluation with traccuracy (CTC DET/LNK/TRA, division metrics). TrackMate kept as optional baseline.
+
+```bash
+conda activate bia
+python -m pip install --dry-run trackastra traccuracy   # check first: no existing core package replaced
+python -m pip install trackastra traccuracy
+python -m pip check                                      # -> No broken requirements found.
+python -c "import cellpose, trackastra, traccuracy; print('ok')"
+```
+
+**Result:** trackastra 0.5.6, traccuracy 0.4.3 installed into `bia`; torch, numpy, cellpose unchanged.
+`environment.yml` updated.

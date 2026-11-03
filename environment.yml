@@ -12,3 +12,5 @@ dependencies:
       - pandas
       - matplotlib
       - jupyterlab
+      - trackastra==0.5.6
+      - traccuracy==0.4.3
